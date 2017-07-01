@@ -6,6 +6,12 @@
 ## Overview
 Blog REST API built with Spring
 
+## Docker
+```
+docker build -t blog-api .
+docker run -p 8090:8090 blog-api
+```
+
 ## Test
 Run JUnit tests
 ```
