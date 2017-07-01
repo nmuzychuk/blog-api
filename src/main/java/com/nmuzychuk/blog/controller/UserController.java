@@ -23,12 +23,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    Collection<User> readUsers() {
+    public Collection<User> readUsers() {
         return userRepository.findAll();
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    ResponseEntity<?> createUser(@RequestBody User user) {
+    public ResponseEntity<?> createUser(@RequestBody User user) {
         User savedUser = userRepository.save(user);
 
         URI location = ServletUriComponentsBuilder
@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
-    User readUser(@PathVariable Long userId) {
+    public User readUser(@PathVariable Long userId) {
         User user = userRepository.findById(userId);
 
         if (user != null) {

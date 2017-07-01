@@ -1,9 +1,8 @@
 package com.nmuzychuk.blog.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -14,6 +13,12 @@ public class User {
     @Column(unique = true)
     private String username;
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Post> posts = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Comment> comments = new HashSet<>();
 
     protected User() {
     }
