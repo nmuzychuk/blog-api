@@ -12,6 +12,12 @@ docker build -t blog-api .
 docker run -p 8090:8090 blog-api
 ```
 
+## Vagrant
+```
+./gradlew build
+java -jar build/libs/blog-1.0-SNAPSHOT.jar
+```
+
 ## Test
 Run JUnit tests
 ```
