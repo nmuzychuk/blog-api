@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
+/**
+ * Service which loads user-specific data.
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -27,6 +30,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException(String.format("Could not find user %s", username));
         }
     }
-
 
 }

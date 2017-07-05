@@ -14,6 +14,9 @@ import java.util.Date;
 import static java.time.ZoneOffset.UTC;
 import static java.util.Collections.emptyList;
 
+/**
+ * Service responsible for JSON Web Token authentication.
+ */
 @Service
 public class JwtAuthService {
 

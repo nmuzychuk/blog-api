@@ -12,6 +12,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+/**
+ * Filter used to verify authentication header.
+ */
 public class JwtAuthFilter extends GenericFilterBean {
 
     @Override

@@ -13,6 +13,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.Collection;
 
+/**
+ * Controller used to manage posts.
+ */
 @RestController
 public class PostController {
 

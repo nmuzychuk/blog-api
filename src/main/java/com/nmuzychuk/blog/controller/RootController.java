@@ -9,6 +9,9 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Controller used to show relevant endpoints.
+ */
 @RestController
 public class RootController {
 

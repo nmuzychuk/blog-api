@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
+/**
+ * Filter used to verify login credentials.
+ */
 public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     public JwtLoginFilter(String url, AuthenticationManager authenticationManager) {
