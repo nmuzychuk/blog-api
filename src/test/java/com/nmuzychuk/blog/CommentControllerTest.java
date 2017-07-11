@@ -6,6 +6,7 @@ import com.nmuzychuk.blog.model.User;
 import com.nmuzychuk.blog.repository.CommentRepository;
 import com.nmuzychuk.blog.repository.PostRepository;
 import com.nmuzychuk.blog.repository.UserRepository;
+import net.minidev.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,6 +33,7 @@ public class CommentControllerTest {
     private MockMvc mockMvc;
     private Post mockPost;
     private Comment mockComment;
+    private JSONObject jsonObject;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -55,6 +57,7 @@ public class CommentControllerTest {
         User mockUser = userRepository.save(new User("mockUser", "password"));
         mockPost = postRepository.save(new Post(mockUser, "title", "body"));
         mockComment = commentRepository.save(new Comment(mockUser, mockPost, "body"));
+        jsonObject = new JSONObject();
     }
 
     @Test
@@ -73,9 +76,11 @@ public class CommentControllerTest {
 
     @Test
     public void testCreatePostComment() throws Exception {
+        jsonObject.put("body", "body");
+
         mockMvc.perform(post(String.format("/posts/%d/comments", mockPost.getId()))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content("{\"body\": \"body\"}"))
+                .content(jsonObject.toString()))
                 .andExpect(status().isCreated());
     }
 

@@ -4,6 +4,7 @@ import com.nmuzychuk.blog.model.Post;
 import com.nmuzychuk.blog.model.User;
 import com.nmuzychuk.blog.repository.PostRepository;
 import com.nmuzychuk.blog.repository.UserRepository;
+import net.minidev.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +31,7 @@ public class PostControllerTest {
     private MockMvc mockMvc;
     private User mockUser;
     private Post mockPost;
+    private JSONObject jsonObject;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -48,6 +50,7 @@ public class PostControllerTest {
 
         mockUser = userRepository.save(new User("mockUser", "password"));
         mockPost = postRepository.save(new Post(mockUser, "title", "body"));
+        jsonObject = new JSONObject();
     }
 
     @Test
@@ -66,9 +69,12 @@ public class PostControllerTest {
 
     @Test
     public void testCreateUserPost() throws Exception {
+        jsonObject.put("title", "title");
+        jsonObject.put("body", "body");
+
         mockMvc.perform(post(String.format("/users/%d/posts", mockUser.getId()))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content("{\"title\": \"title\", \"body\": \"body\"}"))
+                .content(jsonObject.toString()))
                 .andExpect(status().isCreated());
     }
 

@@ -2,6 +2,7 @@ package com.nmuzychuk.blog;
 
 import com.nmuzychuk.blog.model.User;
 import com.nmuzychuk.blog.repository.UserRepository;
+import net.minidev.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,7 @@ public class UserControllerTest {
 
     private MockMvc mockMvc;
     private User mockUser;
+    private JSONObject jsonObject;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -40,6 +42,7 @@ public class UserControllerTest {
         userRepository.deleteAllInBatch();
 
         mockUser = userRepository.save(new User("mockUser", "password"));
+        jsonObject = new JSONObject();
     }
 
     @Test
@@ -51,9 +54,12 @@ public class UserControllerTest {
 
     @Test
     public void testCreateUser() throws Exception {
+        jsonObject.put("username", "username");
+        jsonObject.put("password", "password");
+
         mockMvc.perform(post("/register")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content("{\"username\": \"username\", \"password\": \"password\"}"))
+                .content(jsonObject.toString()))
                 .andExpect(status().isCreated());
     }
 

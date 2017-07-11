@@ -2,6 +2,7 @@ package com.nmuzychuk.blog;
 
 import com.nmuzychuk.blog.model.User;
 import com.nmuzychuk.blog.repository.UserRepository;
+import net.minidev.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +30,7 @@ public class SpringSecurityTest {
 
     private MockMvc mockMvc;
     private User mockUser;
+    private JSONObject jsonObject;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -45,6 +47,7 @@ public class SpringSecurityTest {
         userRepository.deleteAllInBatch();
 
         mockUser = userRepository.save(new User("mockUser", "password"));
+        jsonObject = new JSONObject();
     }
 
     @Test
@@ -56,36 +59,45 @@ public class SpringSecurityTest {
 
     @Test
     public void testRegister() throws Exception {
+        jsonObject.put("username", "username");
+        jsonObject.put("password", "password");
+
         mockMvc.perform(post("/register")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content("{\"username\": \"username\", \"password\": \"password\"}"))
+                .content(jsonObject.toString()))
                 .andExpect(status().isCreated());
     }
 
     @Test
     public void testLoginInvalidUsername() throws Exception {
+        jsonObject.put("username", "invalid");
+        jsonObject.put("password", mockUser.getPassword());
+
         mockMvc.perform(post("/login")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(String.format("{\"username\": \"invalid\", \"password\": \"%s\"}",
-                        mockUser.getPassword())))
+                .content(jsonObject.toString()))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     public void testLoginInvalidPassword() throws Exception {
+        jsonObject.put("username", mockUser.getUsername());
+        jsonObject.put("password", "invalid");
+
         mockMvc.perform(post("/login")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(String.format("{\"username\": \"%s\", \"password\": \"invalid\"}",
-                        mockUser.getUsername())))
+                .content(jsonObject.toString()))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     public void testLogin() throws Exception {
+        jsonObject.put("username", mockUser.getUsername());
+        jsonObject.put("password", mockUser.getPassword());
+
         mockMvc.perform(post("/login")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(String.format("{\"username\": \"%s\", \"password\": \"%s\"}",
-                        mockUser.getUsername(), mockUser.getPassword())))
+                .content(jsonObject.toString()))
                 .andExpect(status().isOk());
     }
 
