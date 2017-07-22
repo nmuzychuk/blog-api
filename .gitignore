@@ -39,3 +39,5 @@ gradle-app.setting
 # Vagrant files
 .vagrant/
 ubuntu-xenial-16.04-cloudimg-console.log
+
+out/
