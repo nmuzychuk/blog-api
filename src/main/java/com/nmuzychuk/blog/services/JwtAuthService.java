@@ -25,7 +25,35 @@ public class JwtAuthService {
     private static final String AUTH_HEADER_PREFIX = "Bearer";
     private static final byte[] AUTH_SECRET = "secret".getBytes();
 
-    public static String getAuthToken(String username) {
+    public static void addAuthHeader(HttpServletResponse response, String username) {
+        response.addHeader(AUTH_HEADER, AUTH_HEADER_PREFIX + " " + getAuthToken(username));
+    }
+
+    public static Authentication verifyAuthHeader(HttpServletRequest request) {
+        String authHeader = request.getHeader(AUTH_HEADER);
+
+        if (authHeader != null) {
+            String username = getUsername(authHeader);
+
+            if (username != null) {
+                return new UsernamePasswordAuthenticationToken(username, null, emptyList());
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public static String getUsername(String authHeader) {
+        return Jwts.parser()
+                .setSigningKey(AUTH_SECRET)
+                .parseClaimsJws(authHeader.replace(AUTH_HEADER_PREFIX, ""))
+                .getBody()
+                .getSubject();
+    }
+
+    private static String getAuthToken(String username) {
         Date expirationDate = Date.from(LocalDateTime.now().plusDays(1).toInstant(UTC));
 
         return Jwts.builder()
@@ -36,27 +64,4 @@ public class JwtAuthService {
                 .compact();
     }
 
-    public static void addAuthHeader(HttpServletResponse response, String username) {
-        response.addHeader(AUTH_HEADER, AUTH_HEADER_PREFIX + " " + getAuthToken(username));
-    }
-
-    public static Authentication verifyAuthHeader(HttpServletRequest request) {
-        String token = request.getHeader(AUTH_HEADER);
-
-        if (token != null) {
-            String user = Jwts.parser()
-                    .setSigningKey(AUTH_SECRET)
-                    .parseClaimsJws(token.replace(AUTH_HEADER_PREFIX, ""))
-                    .getBody()
-                    .getSubject();
-
-            if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, emptyList());
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
 }

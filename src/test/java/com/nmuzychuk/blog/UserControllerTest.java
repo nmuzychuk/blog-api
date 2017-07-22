@@ -1,6 +1,5 @@
 package com.nmuzychuk.blog;
 
-import com.nmuzychuk.blog.model.User;
 import com.nmuzychuk.blog.repository.UserRepository;
 import net.minidev.json.JSONObject;
 import org.junit.Before;
@@ -27,7 +26,6 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 public class UserControllerTest {
 
     private MockMvc mockMvc;
-    private User mockUser;
     private JSONObject jsonObject;
 
     @Autowired
@@ -41,7 +39,6 @@ public class UserControllerTest {
         mockMvc = webAppContextSetup(webApplicationContext).build();
         userRepository.deleteAllInBatch();
 
-        mockUser = userRepository.save(new User("mockUser", "password"));
         jsonObject = new JSONObject();
     }
 
@@ -61,20 +58,6 @@ public class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(jsonObject.toString()))
                 .andExpect(status().isCreated());
-    }
-
-    @Test
-    public void testReadUser() throws Exception {
-        mockMvc.perform(get(String.format("/users/%d", mockUser.getId()))
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect((status().isOk()));
-    }
-
-    @Test
-    public void testReadUserNotFound() throws Exception {
-        mockMvc.perform(get("/users/100")
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isNotFound());
     }
 
 }

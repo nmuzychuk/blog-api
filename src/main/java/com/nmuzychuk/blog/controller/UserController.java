@@ -1,6 +1,5 @@
 package com.nmuzychuk.blog.controller;
 
-import com.nmuzychuk.blog.exceptions.NotFoundException;
 import com.nmuzychuk.blog.model.User;
 import com.nmuzychuk.blog.repository.UserRepository;
 
@@ -39,17 +38,6 @@ public class UserController {
                 .buildAndExpand(savedUser.getId()).toUri();
 
         return ResponseEntity.created(location).build();
-    }
-
-    @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
-    public User readUser(@PathVariable Long userId) {
-        User user = userRepository.findById(userId);
-
-        if (user != null) {
-            return user;
-        } else {
-            throw new NotFoundException(User.class.getSimpleName(), userId);
-        }
     }
 
 }
