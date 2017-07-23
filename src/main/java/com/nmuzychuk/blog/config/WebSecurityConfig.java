@@ -24,8 +24,12 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final UserDetailsService userDetailsService;
+
     @Autowired
-    private UserDetailsService userDetailsService;
+    public WebSecurityConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -36,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/posts").permitAll()
                 .anyRequest().authenticated().and()
                 .addFilterBefore(new JwtLoginFilter("/login", authenticationManager()),
                         UsernamePasswordAuthenticationFilter.class)

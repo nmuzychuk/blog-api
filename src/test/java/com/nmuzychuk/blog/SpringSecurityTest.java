@@ -112,7 +112,7 @@ public class SpringSecurityTest {
     public void testReadPostNoToken() throws Exception {
         mockMvc.perform(get("/posts")
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isOk());
     }
 
     @Test
