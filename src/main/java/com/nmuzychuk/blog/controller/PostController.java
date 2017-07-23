@@ -8,9 +8,9 @@ import com.nmuzychuk.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 import java.util.Collection;
 
 /**
@@ -40,17 +40,16 @@ public class PostController {
     }
 
     @RequestMapping(value = "/users/{userId}/posts", method = RequestMethod.POST)
-    public ResponseEntity<?> createUserPost(@PathVariable Long userId, @RequestBody Post post) {
+    public ResponseEntity<?> createUserPost(@PathVariable Long userId, @RequestBody Post post,
+                                            UriComponentsBuilder builder) {
         User user = userRepository.findById(userId);
         post.setUser(user);
-
         Post savedPost = postRepository.save(post);
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest().path("/{id}")
-                .buildAndExpand(savedPost.getId()).toUri();
+        UriComponents uriComponents =
+                builder.path("/posts/{postId}").buildAndExpand(savedPost.getId());
 
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(uriComponents.toUri()).build();
     }
 
     @RequestMapping(value = "/posts/{postId}", method = RequestMethod.GET)
