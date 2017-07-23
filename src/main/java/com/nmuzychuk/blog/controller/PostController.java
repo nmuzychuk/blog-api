@@ -6,6 +6,7 @@ import com.nmuzychuk.blog.model.User;
 import com.nmuzychuk.blog.repository.PostRepository;
 import com.nmuzychuk.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
@@ -61,6 +62,12 @@ public class PostController {
         } else {
             throw new NotFoundException(Post.class.toString(), postId);
         }
+    }
+
+    @RequestMapping(value = "/posts/{postId}", method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deletePost(@PathVariable Long postId) {
+        postRepository.deleteById(postId);
     }
 
 }

@@ -17,6 +17,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -90,6 +91,13 @@ public class PostControllerTest {
         mockMvc.perform(get("/posts/100")
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testDeletePost() throws Exception {
+        mockMvc.perform(delete(String.format("/posts/%d", mockPost.getId()))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isNoContent());
     }
 
 }

@@ -3,6 +3,7 @@ package com.nmuzychuk.blog.repository;
 import com.nmuzychuk.blog.model.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 
 /**
@@ -14,4 +15,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     Collection<Post> findByUserId(Long userId);
 
+    @Transactional
+    void deleteById(Long postId);
 }
