@@ -17,6 +17,8 @@ public class Post {
     @GeneratedValue
     private Long id;
     private String title;
+
+    @Lob
     private String body;
 
     @OneToMany(mappedBy = "post")
