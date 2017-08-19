@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,8 +18,14 @@ public class User {
     @Id
     @GeneratedValue
     private Long id;
+
     @Column(unique = true)
+    @NotNull
+    @Size(min = 6, max = 32)
     private String username;
+
+    @NotNull
+    @Size(min = 6, max = 32)
     private String password;
 
     @OneToMany(mappedBy = "user")

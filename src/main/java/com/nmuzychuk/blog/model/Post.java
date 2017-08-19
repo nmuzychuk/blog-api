@@ -1,6 +1,8 @@
 package com.nmuzychuk.blog.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,9 +18,14 @@ public class Post {
     @Id
     @GeneratedValue
     private Long id;
+
+    @NotNull
+    @Size(max = 128)
     private String title;
 
+    @NotNull
     @Lob
+    @Size(max = 2000)
     private String body;
 
     @OneToMany(mappedBy = "post")
