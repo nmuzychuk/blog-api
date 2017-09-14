@@ -6,6 +6,7 @@
 ## Overview
 Blog REST API built with Spring
 
+[Client application](https://github.com/nmuzychuk/blog-web)
 ## Docker
 ```
 docker build -t blog-api .
