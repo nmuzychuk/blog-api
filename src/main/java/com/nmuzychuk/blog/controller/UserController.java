@@ -8,6 +8,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -18,10 +19,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    UserController(UserRepository userRepository) {
+    UserController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
@@ -31,6 +34,8 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> createUser(@RequestBody User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         User savedUser = userRepository.save(user);
 
         URI location = ServletUriComponentsBuilder

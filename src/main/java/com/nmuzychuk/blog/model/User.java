@@ -29,7 +29,7 @@ public class User {
     private String username;
 
     @NotNull
-    @Size(min = 6, max = 32)
+    @Size(min = 6)
     private String password;
 
     @OneToMany(mappedBy = "user")

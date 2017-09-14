@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -28,6 +29,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @WebAppConfiguration
 public class SpringSecurityTest {
 
+    private final String mockUserPassword = "password";
+
     private MockMvc mockMvc;
     private User mockUser;
     private JSONObject jsonObject;
@@ -41,12 +44,16 @@ public class SpringSecurityTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Before
     public void setUp() {
         mockMvc = webAppContextSetup(webApplicationContext).addFilters(springSecurityFilterChain).build();
         userRepository.deleteAllInBatch();
 
-        mockUser = userRepository.save(new User("mockUser", "password"));
+        mockUser = userRepository.save(new User("mockUser",
+                passwordEncoder.encode(mockUserPassword)));
         jsonObject = new JSONObject();
     }
 
@@ -93,7 +100,7 @@ public class SpringSecurityTest {
     @Test
     public void testLogin() throws Exception {
         jsonObject.put("username", mockUser.getUsername());
-        jsonObject.put("password", mockUser.getPassword());
+        jsonObject.put("password", mockUserPassword);
 
         mockMvc.perform(post("/login")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
