@@ -4,7 +4,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/9f42572d516b4df495cd146d63c7c571)](https://www.codacy.com/app/nmuzychuk/blog-api)
 
 ## Overview
-Blog REST API built with Spring
+Blog REST API built with Spring. Specific request mappings require JSON Web Token. Swagger UI page generated from the OpenAPI specification document is available at /swagger-ui.html
 
 [Client application](https://github.com/nmuzychuk/blog-web)
 ## Docker
