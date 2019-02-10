@@ -6,7 +6,9 @@
 ## Overview
 Blog REST API built with Spring. Specific request mappings require JSON Web Token. Swagger UI page generated from the OpenAPI specification document is available at /swagger-ui.html
 
-[Client application](https://github.com/nmuzychuk/blog-web)
+https://my-blog-rest-api.herokuapp.com/swagger-ui.html
+
+[AngularJS client application](https://github.com/nmuzychuk/blog-web)
 ## Docker
 ```
 docker build -t blog-api .
