@@ -5,4 +5,4 @@ WORKDIR /usr/src/blog-api
 
 RUN ./gradlew build
 
-CMD ["java", "-jar", "build/libs/blog-1.0-SNAPSHOT.jar"]
+ENTRYPOINT ["sh", "-c", "java -jar build/libs/blog-*.jar"]
