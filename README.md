@@ -1,7 +1,6 @@
 # Blog API
-[![Build Status](https://travis-ci.org/nmuzychuk/blog-api.svg?branch=master)](https://travis-ci.org/nmuzychuk/blog-api)
+[![Java CI with Gradle](https://github.com/nmuzychuk/blog-api/actions/workflows/gradle.yml/badge.svg)](https://github.com/nmuzychuk/blog-api/actions/workflows/gradle.yml)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9f42572d516b4df495cd146d63c7c571)](https://www.codacy.com/app/nmuzychuk/blog-api)
-[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/9f42572d516b4df495cd146d63c7c571)](https://www.codacy.com/app/nmuzychuk/blog-api)
 
 ## Overview
 Blog REST API built with Spring. Specific request mappings require JSON Web Token. Swagger UI page generated from the OpenAPI specification document is available at /swagger-ui.html
